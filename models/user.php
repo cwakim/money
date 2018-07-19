@@ -81,4 +81,34 @@ class User
         );
     }
 
+    /**
+     *
+     * Returns the top users with their ranks limited by the limit parameter
+     *
+     * @param  int $limit The limit defaults to 100
+     * @return  int|array
+     *
+     */
+    public function getUsersRank($limit = 100)
+    {
+        return $this->db->query('
+          SELECT
+                  user_id, fullname, username, total, (@rank := @rank+1) AS rank
+              FROM
+                  (SELECT
+                     (@rank := 0) AS R,
+                      u.user_id,
+                      u.fullname,
+                      u.username,
+                      SUM(IFNULL(up.amount, 0)) AS total
+              FROM
+                  money.user u
+              LEFT OUTER JOIN money.user_point up ON u.user_id = up.user_id
+              GROUP BY u.user_id , u.fullname , u.username) t
+              ORDER BY t.total DESC, t.user_id ASC
+              LIMIT
+          '. $limit
+        );
+    }
+
 }
