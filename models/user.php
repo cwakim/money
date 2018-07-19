@@ -59,6 +59,28 @@ class User
 
     /**
      *
+     * Returns all users limited by the limit parameter
+     *
+     * @param  int $limit The limit defaults to 100
+     * @return  int|array
+     *
+     */
+    public function getUsers($limit = null)
+    {
+        $query = 'SELECT username, fullname, user_id FROM user
+          ORDER BY username DESC';
+
+        if ($limit)
+        {
+            $query .= ' LIMIT '. $limit;
+        }
+
+        return $this->db->query($query);
+
+    }
+
+    /**
+     *
      * Returns the top users limited by the limit parameter
      *
      * @param  int $limit The limit defaults to 100
