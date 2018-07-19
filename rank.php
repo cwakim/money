@@ -12,14 +12,15 @@
     </head>
     <body>
         <div class="jumbotron text-center">
-            <h1>Top Users By Total</h1>
+            <h1>Top Users By Rank</h1>
         </div>
         <div class="container">
-            <p><a href="/rank">View Ranked</a></p>
+            <p><a href="/">View Total</a></p>
             <p><a href="/create">Create User</a></p>
             <table class="table table-striped">
               <thead>
                 <tr>
+                  <th>Rank</th>
                   <th>Id</th>
                   <th>Full Name</th>
                   <th>Username</th>
@@ -29,10 +30,11 @@
               </thead>
               <tbody>
                 <?php
-                    $users = $user->getTopUsers();
+                    $users = $user->getUsersRank();
                     foreach ($users['items'] as $userRow) {
                 ?>
                   <tr>
+                      <td><?php echo $userRow['rank']; ?></td>
                       <td><?php echo $userRow['user_id']; ?></td>
                       <td><?php echo $userRow['fullname']; ?></td>
                       <td><?php echo $userRow['username']; ?></td>
