@@ -37,4 +37,24 @@ class User
         );
     }
 
+    /**
+     *
+     * Add points to a user
+     *
+     * @param  int $userId User Id
+     * @param  int $amount The table to insert into
+     * @return  int|array
+     *
+     */
+    public function addUserPoint($userId, $amount)
+    {
+        return $this->db->insert(
+            'user_point',
+            array(
+                'user_id' => $userId,
+                'amount' => $amount
+            )
+        );
+    }
+
 }
