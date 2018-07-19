@@ -57,4 +57,28 @@ class User
         );
     }
 
+    /**
+     *
+     * Returns the top users limited by the limit parameter
+     *
+     * @param  int $limit The limit defaults to 100
+     * @return  int|array
+     *
+     */
+    public function getTopUsers($limit = 100)
+    {
+        return $this->db->query('
+          SELECT
+            u.user_id, u.fullname, u.username, SUM(ifnull(up.amount,0)) AS total
+            FROM
+                money.user u
+                    left outer JOIN
+                money.user_point up ON u.user_id = up.user_id
+            GROUP BY u.user_id , u.fullname , u.username
+            ORDER BY total DESC, u.user_id ASC
+            LIMIT
+          '. $limit
+        );
+    }
+
 }
